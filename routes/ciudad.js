@@ -68,7 +68,7 @@ ciudad.delete('/:id', async (req, res) => {
     try {
         const sql = `
             UPDATE tbl_ciudad
-            SET activo = false, fecha_borrado = current_timestamp
+            SET activo = false, fecha_borra = current_timestamp
             WHERE id_ciudad = $1
             RETURNING id_ciudad, fecha_borrado
         `;
@@ -79,7 +79,7 @@ ciudad.delete('/:id', async (req, res) => {
             res.json({
                 id_ciudad: data.id_ciudad,
                 activo: false,
-                fecha_borrado: data.fecha_borrado
+                fecha_borra: data.fecha_borra
             });
         } else {
             res.status(404).json({ error: 'Registro no encontrado' });

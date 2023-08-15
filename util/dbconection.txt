@@ -4,7 +4,7 @@ CREATE TABLE tbl_ciudad (
     id_ciudad SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP
+    fecha_borra TIMESTAMP
 );
 
 //Gustavo
@@ -12,7 +12,7 @@ CREATE TABLE tbl_pais (
     id_pais SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP
+    fecha_borra TIMESTAMP
 );
 
 //Erick
@@ -41,7 +41,7 @@ CREATE TABLE tbl_factura (
     id_direccion INT REFERENCES tbl_direccion(id_direccion),
     fecha DATE,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP WITHOUT TIME ZONE,
+    fecha_borra TIMESTAMP WITHOUT TIME ZONE,
     PRIMARY KEY(id_factura)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE tbl_direccion (
     direccion VARCHAR(255) NOT NULL,
     descripcion VARCHAR(255),
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP,
+    fecha_borra TIMESTAMP,
     correo_usuario VARCHAR(255),
     id_ciudad INT REFERENCES tbl_ciudad(id_ciudad),
     id_pais INT REFERENCES tbl_pais(id_pais),
