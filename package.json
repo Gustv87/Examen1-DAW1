@@ -1,0 +1,15 @@
+{
+  "name": "examen1-daw1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.0.1",
+    "pg-promise": "^11.5.3"
+  }
+}
