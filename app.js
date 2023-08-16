@@ -12,6 +12,9 @@ app.use('/api/factura', factura);
 const pais = require('./routes/pais.js');
 app.use('/api/pais', pais);
 
+const direccion = require('./routes/direccion.js');
+app.use('/api/direccion', direccion);
+
 
 // Inicio del servidor
 const puerto = 3000;
