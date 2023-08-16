@@ -35,7 +35,7 @@ CREATE TABLE tbl_producto(
 )
 //Erick
 CREATE TABLE tbl_usuario(  
-    correo VARCHAR(255) NOT NULL PRIMARY KEY,
+    correo VARCHAR(200) NOT NULL PRIMARY KEY,
     nombre VARCHAR(255),
     activo BOOLEAN DEFAULT true,
     fecha_borra TIMESTAMP WITHOUT TIME ZONE,
@@ -45,7 +45,7 @@ CREATE TABLE tbl_usuario(
 //Steven
 CREATE TABLE tbl_factura (
     id_factura SERIAL NOT NULL,
-    correo_usuario INT REFERENCES tb_usuario(correo_usuario),
+    correo VARCHAR(200) REFERENCES tb_usuario(correo),
     id_direccion INT REFERENCES tbl_direccion(id_direccion),
     fecha DATE,
     activo BOOLEAN DEFAULT TRUE,
@@ -60,10 +60,9 @@ CREATE TABLE tbl_direccion (
     descripcion VARCHAR(255),
     activo BOOLEAN DEFAULT TRUE,
     fecha_borra TIMESTAMP,
-    correo_usuario VARCHAR(255),
     id_ciudad INT REFERENCES tbl_ciudad(id_ciudad),
     id_pais INT REFERENCES tbl_pais(id_pais),
-    correo VARCHAR(255) REFERENCES tbl_usuario(correo)
+    correo VARCHAR(200) REFERENCES tbl_usuario(correo)
 );
 
 //Mariel
