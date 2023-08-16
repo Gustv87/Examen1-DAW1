@@ -9,6 +9,8 @@ app.use('/api/ciudad', ciudad);
 const factura = require('./routes/factura.js');
 app.use('/api/factura', factura);
 
+const pais = require('./routes/pais.js');
+app.use('/api/pais', pais);
 
 
 // Inicio del servidor
