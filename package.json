@@ -4,7 +4,9 @@
   "description": "",
   "main": "db.js",
   "scripts": {
+
     "dev": "nodemon app.js"
+
   },
   "author": "",
   "license": "ISC",
