@@ -45,34 +45,36 @@ rol.get('', (req, res) => {
         });
 });
 
-rol.put('/:id', (req, res) => {
-    const idlab = req.params.id;
-    const { nombre } = req.body;
 
-    const parametros = [nombre, idlab];
+rol.put('/:id_rol', (req, res) => {
 
-    const sql = `
-      UPDATE tbl_rol 
-      SET  id_reserva = $1
-       id_lab=$2
-       id_horario = $3
-       id_usuario= $4
-where fecha =$5
-    `;
-
-    db.query(sql, parametros)
-        .then(data => {
-            const objetoModificado = {
-                id: id_reserva,
-                id: id_lab,
-                id: id_horario,
-                id: id_usuario,
-                fecha: fecha
-            };
-
-            res.json(objetoModificado);
-        });
-});
+    const parametros = [
+        req.params.id_rol,
+        req.body.nombre
+      ];
+    
+      let sql = ` update tbl_rol 
+                   set  nombre =  $2
+                  
+                      where id= $1`
+                      ;
+    
+      db.result(sql, parametros, r => r.rowCount)
+          .then(data => {
+    
+              const objetoMo = {  id_rol : req.params.id_rol, 
+                                          nombre : req.body.nombre };
+              
+              res.json(objetoMo);
+    
+          })
+          .catch((error) => {
+              res.json(error);
+          });
+    
+  
+  
+  });
 
 rol.delete('/:id_rol', (req, res) => {
     let sql = ` update tbl_rol
