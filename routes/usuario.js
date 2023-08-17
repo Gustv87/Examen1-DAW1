@@ -37,6 +37,36 @@ usuario.get('', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
+
+usuario.put('/:correo', (req, res) => {
+
+    const parametros = [
+        req.params.correo,
+        req.body.nombre
+      ];
+    
+      let sql = ` update tbl_usuario 
+                   set  nombre =  $2
+                  
+                      where correo= $1`
+                      ;
+    
+      db.result(sql, parametros, r => r.rowCount)
+          .then(data => {
+    
+              const objetoMo = {  usuario : req.params.correo, 
+                                          nombre : req.body.nombre };
+              
+              res.json(objetoMo);
+    
+          })
+          .catch((error) => {
+              res.json(error);
+          });
+    
+  
+  
+  });
 usuario.delete('/:correo', (req, res) => {
     let sql = ` update tbl_usuario
                 set activo = false , 
