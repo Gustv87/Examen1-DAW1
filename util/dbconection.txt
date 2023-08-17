@@ -1,4 +1,3 @@
-
 // steven
 CREATE TABLE tbl_ciudad (
     id_ciudad SERIAL PRIMARY KEY,
@@ -13,7 +12,6 @@ CREATE TABLE tbl_pais (
     activo BOOLEAN DEFAULT TRUE,
     fecha_borra TIMESTAMP
 );
-
 //Erick
 CREATE TABLE tbl_rol(
     id_rol SERIAL NOT NULL PRIMARY KEY,
@@ -23,7 +21,6 @@ CREATE TABLE tbl_rol(
     
 );
 DROP TABLE tbl_rol CASCADE;
-
 //Mariel
 CREATE TABLE tbl_producto(
     id_producto SERIAL NOT NULL PRIMARY KEY,
@@ -32,7 +29,6 @@ CREATE TABLE tbl_producto(
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
 );
-
 //Erick
 CREATE TABLE tbl_usuario(  
     correo VARCHAR(200) NOT NULL PRIMARY KEY,
@@ -41,7 +37,6 @@ CREATE TABLE tbl_usuario(
     fecha_borra TIMESTAMP WITHOUT TIME ZONE,
     id_rol int REFERENCES tbl_rol(id_rol)
 );
-
 //Gustavo
 CREATE TABLE tbl_direccion (
     id_direccion SERIAL PRIMARY KEY,
@@ -54,8 +49,6 @@ CREATE TABLE tbl_direccion (
     id_pais INT REFERENCES tbl_pais(id_pais)
    
 );
-
-
 //steven
 CREATE TABLE tbl_factura(  
    id_factura SERIAL NOT NULL PRIMARY KEY,
@@ -65,7 +58,6 @@ CREATE TABLE tbl_factura(
     activo BOOLEAN DEFAULT TRUE,
     fecha_borrado TIMESTAMP WITHOUT TIME ZONE
 );
-
 //Mariel
 CREATE TABLE tbl_factura_detalle(
     id_detalle SERIAL NOT NULL PRIMARY KEY,

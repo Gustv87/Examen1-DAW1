@@ -1,19 +1,14 @@
 const express = require('express');
 const direccion = express.Router();
 const db = require('../db/conn');
-
 direccion.post('/', (req, res) => {
     if (!req.body.direccion || !req.body.descripcion || !req.body.correo || !req.body.id_ciudad || !req.body.id_pais) {
         res.status(400).json({ error: 'Faltan campos obligatorios' });
         return;
     }
-
     const { direccion, descripcion, correo, id_ciudad, id_pais } = req.body;
-
     let datos = [direccion, descripcion, correo, id_ciudad, id_pais];
-
     let sql = `INSERT INTO tbl_direccion (direccion, descripcion, correo, id_ciudad, id_pais) VALUES ($1, $2, $3, $4, $5) RETURNING id_direccion`;
-
     db.one(sql, datos)
         .then(data => {
             const objetoCreado = {
@@ -31,10 +26,8 @@ direccion.post('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-
 direccion.get('/', (req, res) => {
     let sql = "SELECT * FROM tbl_direccion WHERE activo = true";
-
     db.any(sql)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
@@ -45,24 +38,19 @@ direccion.get('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-
 direccion.put('/:id', (req, res) => {
     const idDireccion = req.params.id;
     const { direccion, descripcion, id_ciudad, id_pais } = req.body;
-
     if (!direccion || !descripcion || !id_ciudad || !id_pais) {
         res.status(400).json({ error: 'Faltan campos obligatorios' });
         return;
     }
-
     const parametros = [direccion, descripcion, id_ciudad, id_pais, idDireccion];
-
     const sql = `
       UPDATE tbl_direccion 
       SET direccion = $1, descripcion = $2, id_ciudad = $3, id_pais = $4
       WHERE id_direccion = $5
     `;
-
     db.query(sql, parametros)
         .then(data => {
             const objetoModificado = {
@@ -72,7 +60,6 @@ direccion.put('/:id', (req, res) => {
                 id_ciudad: id_ciudad,
                 id_pais: id_pais
             };
-
             res.json(objetoModificado);
         })
         .catch(error => {
@@ -80,7 +67,6 @@ direccion.put('/:id', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-
 direccion.delete('/:id', async (req, res) => {
     try {
         const sql = `
@@ -89,9 +75,8 @@ direccion.delete('/:id', async (req, res) => {
             WHERE id_direccion = $1
             RETURNING id_direccion, direccion, descripcion, activo, fecha_borrado, correo, id_ciudad, id_pais
         `;
-        
-        const data = await db.oneOrNone(sql, [req.params.id]);
 
+        const data = await db.oneOrNone(sql, [req.params.id]);
         if (data) {
             res.json(data);
         } else {
@@ -102,5 +87,4 @@ direccion.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error en la consulta a la base de datos' });
     }
 });
-
 module.exports = direccion;
