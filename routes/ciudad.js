@@ -42,10 +42,10 @@ ciudad.get('/', (req, res) => {
 });
 
 ciudad.put('/:id', (req, res) => {
-    const idciudad = req.params.idciudad;
+    const id_ciudad = req.params.idciudad;
     const { nombre } = req.body;
 
-    const parametros = [nombre, idciudad];
+    const parametros = [nombre, id_ciudad];
 
     const sql = `
       UPDATE tbl_ciudad 
@@ -56,7 +56,7 @@ ciudad.put('/:id', (req, res) => {
     db.query(sql, parametros)
         .then(data => {
             const objetoModificado = {
-                id_ciudad: idciudad,
+                id_ciudad: id_ciudad,
                 nombre: nombre
             };
 

@@ -59,7 +59,7 @@ CREATE TABLE tbl_direccion (
 //steven
 CREATE TABLE tbl_factura(  
    id_factura SERIAL NOT NULL PRIMARY KEY,
-    correo_usuario VARCHAR REFERENCES tbl_usuario(correo),
+    correo VARCHAR REFERENCES tbl_usuario(correo),
     id_direccion INT REFERENCES tbl_direccion(id_direccion),
     fecha DATE,
     activo BOOLEAN DEFAULT TRUE,
