@@ -66,7 +66,6 @@ producto.delete('/:id_producto', (req, res) => {
         .then(data => {
             const objetoBorrado = {
                 id_producto: req.params.id_producto,
-
                 activo: false
             };
             res.json(objetoBorrado);

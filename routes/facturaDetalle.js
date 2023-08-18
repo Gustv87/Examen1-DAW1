@@ -1,8 +1,6 @@
 const express = require('express');//const que es nuestra libreria de express
 const facturaDetalle = express.Router();
 const db = require('../db/conn');//conexion a la base de datos
-
-
 facturaDetalle.post('', (req, res) => {
     let datos = [
         req.body.id_factura,
@@ -27,7 +25,6 @@ facturaDetalle.post('', (req, res) => {
             res.json(error);
         });
 });
-
 facturaDetalle.get('', (req, res) => {
     let sql = "select * from tbl_factura_detalle where activo = true";
     db.any(sql, e => e.id_producto)
@@ -38,7 +35,6 @@ facturaDetalle.get('', (req, res) => {
             res.json(error);
         })
 })
-
 facturaDetalle.put('/:id_detalle', (req, res) => {
     const parametros = [
         req.body.id_factura,
@@ -65,8 +61,6 @@ facturaDetalle.put('/:id_detalle', (req, res) => {
             res.json(error);
         })
 });
-
-
 facturaDetalle.delete('/:id_detalle', (req, res) => {
     let sql = `update tbl_factura_detalle
                 set activo = false,
@@ -77,7 +71,6 @@ facturaDetalle.delete('/:id_detalle', (req, res) => {
         .then(data => {
             const objetoBorrado = {
                 id_detalle: req.params.id_detalle,
-
                 activo: false
             };
             res.json(objetoBorrado);
@@ -86,5 +79,4 @@ facturaDetalle.delete('/:id_detalle', (req, res) => {
             res.json(error);
         })
 })
-
 module.exports = facturaDetalle;

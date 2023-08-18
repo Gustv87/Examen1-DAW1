@@ -75,7 +75,6 @@ direccion.delete('/:id', async (req, res) => {
             WHERE id_direccion = $1
             RETURNING id_direccion, direccion, descripcion, activo, fecha_borra, correo, id_ciudad, id_pais
         `;
-
         const data = await db.oneOrNone(sql, [req.params.id]);
         if (data) {
             res.json(data);

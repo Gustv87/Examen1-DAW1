@@ -7,12 +7,9 @@ usuario.post('', (req, res) => {
         req.body.nombre,
         req.body.id_rol
     ];
-
-
     let sql = `INSERT INTO tbl_usuario (correo, nombre, id_rol) values ($1, $2, $3) 
                                                             RETURNING correo`;
     console.log(params)
-
     db.one(sql, params, event => event.id_rol)
         .then(data => {
             const objetoCreado = {
@@ -37,36 +34,28 @@ usuario.get('', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-
 usuario.put('/:correo', (req, res) => {
-
     const parametros = [
         req.params.correo,
         req.body.nombre
-      ];
-    
-      let sql = ` update tbl_usuario 
+    ];
+    let sql = ` update tbl_usuario 
                    set  nombre =  $2
                   
                       where correo= $1`
-                      ;
-    
-      db.result(sql, parametros, r => r.rowCount)
-          .then(data => {
-    
-              const objetoMo = {  usuario : req.params.correo, 
-                                          nombre : req.body.nombre };
-              
-              res.json(objetoMo);
-    
-          })
-          .catch((error) => {
-              res.json(error);
-          });
-    
-  
-  
-  });
+        ;
+    db.result(sql, parametros, r => r.rowCount)
+        .then(data => {
+            const objetoMo = {
+                usuario: req.params.correo,
+                nombre: req.body.nombre
+            };
+            res.json(objetoMo);
+        })
+        .catch((error) => {
+            res.json(error);
+        });
+});
 usuario.delete('/:correo', (req, res) => {
     let sql = ` update tbl_usuario
                 set activo = false , 
@@ -78,7 +67,6 @@ usuario.delete('/:correo', (req, res) => {
                 correo: req.params.correo,
                 activo: false
             };
-
             res.json(objetoBorrado);
         })
         .catch((error) => {

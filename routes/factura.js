@@ -10,7 +10,6 @@ factura.post('', (req, res) => {
     let sql = `INSERT INTO tbl_factura (correo, id_direccion, fecha) values ($1, $2, $3) 
                                                             RETURNING id_factura`;
     console.log(params)
-
     db.one(sql, params, event => event.id_factura)
         .then(data => {
             const objetoCreado = {
@@ -37,9 +36,8 @@ factura.get('/', (req, res) => {
 });
 factura.put('/:id', (req, res) => {
     const id_factura = req.params.id;
-    const { correo, id_direccion, fecha } = req.body; 
-    
-    const parametros = [correo, id_direccion, fecha, id_factura]; 
+    const { correo, id_direccion, fecha } = req.body;
+    const parametros = [correo, id_direccion, fecha, id_factura];
     const sql = `
       UPDATE tbl_factura 
       SET correo = $1, id_direccion = $2, fecha = $3
@@ -63,8 +61,6 @@ factura.put('/:id', (req, res) => {
             res.status(500).json({ error: "An error occurred while updating the factura." });
         });
 });
-
-
 factura.delete('/:id', async (req, res) => {
     try {
         const sql = `
@@ -76,14 +72,13 @@ factura.delete('/:id', async (req, res) => {
             WHERE id_factura = $3
             RETURNING id_factura, fecha_borra
         `;
-
-        const { correo, id_direccion } = req.body; 
-        const data = await db.oneOrNone(sql, [correo, id_direccion, req.params.id]); 
+        const { correo, id_direccion } = req.body;
+        const data = await db.oneOrNone(sql, [correo, id_direccion, req.params.id]);
         if (data) {
             res.json({
                 id_factura: data.id_factura,
-                correo: correo, 
-                id_direccion: id_direccion, 
+                correo: correo,
+                id_direccion: id_direccion,
                 fecha_borra: data.fecha_borra
             });
         } else {
@@ -94,5 +89,4 @@ factura.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error en la consulta a la base de datos' });
     }
 });
-
 module.exports = factura;

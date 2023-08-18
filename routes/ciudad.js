@@ -59,7 +59,6 @@ ciudad.delete('/:id', async (req, res) => {
             WHERE id_ciudad = $1
             RETURNING id_ciudad, fecha_borra
         `;
-
         const data = await db.oneOrNone(sql, [req.params.id]);
         if (data) {
             res.json({
