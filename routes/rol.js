@@ -36,7 +36,13 @@ rol.get('', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
+
+
+
+
 rol.put('/:id_rol', (req, res) => {
+
+
 
     const parametros = [
         req.params.id_rol,
@@ -46,7 +52,11 @@ rol.put('/:id_rol', (req, res) => {
       let sql = ` update tbl_rol 
                    set  nombre =  $2
                   
+
+                     
+
                       where id_rol= $1`
+
                       ;
     
       db.result(sql, parametros, r => r.rowCount)
@@ -65,6 +75,7 @@ rol.put('/:id_rol', (req, res) => {
   
   
   });
+
 rol.delete('/:id_rol', (req, res) => {
     let sql = ` update tbl_rol
                 set activo = false , 
