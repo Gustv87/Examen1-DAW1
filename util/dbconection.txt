@@ -60,10 +60,17 @@ CREATE TABLE tbl_factura(
 );
 //Mariel
 CREATE TABLE tbl_factura_detalle(
+<<<<<<< Updated upstream
     id_detalle SERIAL NOT NULL PRIMARY KEY,
     id_factura int REFERENCES tbl_factura(id_factura),
     cantidad int NOT NULL,
     id_producto int REFERENCES tbl_producto(id_producto),
+=======
+    id_detalle SERIAL NOT NULL,
+    id_factura INT NOT NULL,
+    cantidad INT NOT NULL,
+    id_producto INT NOT NULL,
+>>>>>>> Stashed changes
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
    

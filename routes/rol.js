@@ -1,6 +1,8 @@
 const express = require('express');
 const rol = express.Router();
 const db = require('../db/conn');
+
+
 rol.post('', (req, res) => {
     let params = [
         req.body.nombre
