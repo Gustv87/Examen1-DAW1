@@ -26,7 +26,12 @@ facturaDetalle.post('', (req, res) => {
         });
 });
 facturaDetalle.get('', (req, res) => {
-    let sql = "select * from tbl_factura_detalle where activo = true";
+    let sql = `
+            select d.id_detalle, f.correo, p.nombre, d.cantidad 
+            from tbl_factura_detalle as d
+            inner join tbl_factura as f on d.id_factura = f.id_factura
+            inner join tbl_producto as p on d.id_producto = p.id_producto
+            where d.activo = true`;
     db.any(sql, e => e.id_producto)
         .then(rows => {
             res.json(rows);
@@ -35,6 +40,7 @@ facturaDetalle.get('', (req, res) => {
             res.json(error);
         })
 })
+
 facturaDetalle.put('/:id_detalle', (req, res) => {
     const parametros = [
         req.body.id_factura,
@@ -61,6 +67,8 @@ facturaDetalle.put('/:id_detalle', (req, res) => {
             res.json(error);
         })
 });
+
+
 facturaDetalle.delete('/:id_detalle', (req, res) => {
     let sql = `update tbl_factura_detalle
                 set activo = false,
