@@ -71,9 +71,9 @@ direccion.delete('/:id', async (req, res) => {
     try {
         const sql = `
             UPDATE tbl_direccion
-            SET activo = false, fecha_borrado = current_timestamp
+            SET activo = false, fecha_borra = current_timestamp
             WHERE id_direccion = $1
-            RETURNING id_direccion, direccion, descripcion, activo, fecha_borrado, correo, id_ciudad, id_pais
+            RETURNING id_direccion, direccion, descripcion, activo, fecha_borra, correo, id_ciudad, id_pais
         `;
 
         const data = await db.oneOrNone(sql, [req.params.id]);

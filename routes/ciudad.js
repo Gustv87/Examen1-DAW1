@@ -34,7 +34,7 @@ ciudad.get('/', (req, res) => {
         });
 });
 ciudad.put('/:id', (req, res) => {
-    const id_ciudad = req.params.idciudad;
+    const id_ciudad = req.params.id;
     const { nombre } = req.body;
     const parametros = [nombre, id_ciudad];
     const sql = `
