@@ -1,50 +1,42 @@
-//Steven
-
+// steven
 CREATE TABLE tbl_ciudad (
     id_ciudad SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP
+    fecha_borra TIMESTAMP
 );
-
 //Gustavo
 CREATE TABLE tbl_pais (
     id_pais SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP
+    fecha_borra TIMESTAMP
 );
-
 //Erick
 CREATE TABLE tbl_rol(
-    id_rol SERIAL NOT NULL,
+    id_rol SERIAL NOT NULL PRIMARY KEY,
     nombre VARCHAR (100) NOT NULL,
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
     
 );
-
+DROP TABLE tbl_rol CASCADE;
 //Mariel
 CREATE TABLE tbl_producto(
-    id_producto SERIAL NOT NULL,
-    nombre character varying(100) NOT NULL,
-    precio SERIAL NOT NULL,
+    id_producto SERIAL NOT NULL PRIMARY KEY,
+    nombre character varying(255) NOT NULL,
+    precio integer NOT NULL,
     activo boolean DEFAULT true,
-    fecha_borra timestamp without time zone,
-    PRIMARY KEY(id_producto)
-)
-
-//Steven
-CREATE TABLE tbl_factura (
-    id_factura SERIAL NOT NULL,
-    correo_usuario INT REFERENCES tb_usuario(correo_usuario),
-    id_direccion INT REFERENCES tbl_direccion(id_direccion),
-    fecha DATE,
-    activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP WITHOUT TIME ZONE,
-    PRIMARY KEY(id_factura)
+    fecha_borra timestamp without time zone
 );
-
+//Erick
+CREATE TABLE tbl_usuario(  
+    correo VARCHAR(200) NOT NULL PRIMARY KEY,
+    nombre VARCHAR(255),
+    activo BOOLEAN DEFAULT true,
+    fecha_borra TIMESTAMP WITHOUT TIME ZONE,
+    id_rol int REFERENCES tbl_rol(id_rol)
+);
 //Gustavo
 CREATE TABLE tbl_direccion (
     id_direccion SERIAL PRIMARY KEY,
@@ -52,20 +44,27 @@ CREATE TABLE tbl_direccion (
     descripcion VARCHAR(255),
     activo BOOLEAN DEFAULT TRUE,
     fecha_borrado TIMESTAMP,
-    correo_usuario VARCHAR(255),
+    correo VARCHAR REFERENCES tbl_usuario(correo),
     id_ciudad INT REFERENCES tbl_ciudad(id_ciudad),
-    id_pais INT REFERENCES tbl_pais(id_pais),
-    id_usuario VARCHAR(255) REFERENCES tbl_usuario(correo_usuario)
+    id_pais INT REFERENCES tbl_pais(id_pais)
+   
 );
-
+//steven
+CREATE TABLE tbl_factura(  
+   id_factura SERIAL NOT NULL PRIMARY KEY,
+    correo VARCHAR REFERENCES tbl_usuario(correo),
+    id_direccion INT REFERENCES tbl_direccion(id_direccion),
+    fecha DATE,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_borrado TIMESTAMP WITHOUT TIME ZONE
+);
 //Mariel
 CREATE TABLE tbl_factura_detalle(
-    id_detalle SERIAL NOT NULL,
-    id_factura SERIAL NOT NULL,
-    cantidad SERIAL NOT NULL,
-    id_producto SERIAL NOT NULL,
+    id_detalle SERIAL NOT NULL PRIMARY KEY,
+    id_factura int REFERENCES tbl_factura(id_factura),
+    cantidad int NOT NULL,
+    id_producto int REFERENCES tbl_producto(id_producto),
     activo boolean DEFAULT true,
-    fecha_borra timestamp without time zone,
-    PRIMARY KEY(id_detalle),
-    CONSTRAINT tbl_factura_detalle_id_factura_fkey FOREIGN key(id_factura) REFERENCES tbl_factura(id_factura),CONSTRAINT tbl_factura_detalle_id_producto_fkey FOREIGN key(id_producto) REFERENCES tbl_producto(id_producto)
+    fecha_borra timestamp without time zone
+   
 );

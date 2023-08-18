@@ -1,19 +1,19 @@
 const express = require('express');
-const ciudad = express.Router();
+const pais = express.Router();
 const db = require('../db/conn');
-ciudad.post('/', (req, res) => {
-    if (!req.body.nombre) {
-        res.status(400).json({ error: 'Falta el campo nombre' });
+pais.post('/', (req, res) => {
+    if (typeof req.body.nombre !== 'string') {
+        res.status(400).json({ error: 'El campo nombre debe ser una cadena de caracteres' });
         return;
     }
-    const nombreciudad = req.body.nombre;
-    let datos = [nombreciudad];
-    let sql = `INSERT INTO tbl_ciudad (nombre) VALUES ($1) RETURNING id_ciudad`;
+    const nombrePais = String(req.body.nombre);
+    let datos = [nombrePais];
+    let sql = `INSERT INTO tbl_pais (nombre) VALUES ($1) RETURNING id_pais`;
     db.one(sql, datos)
         .then(data => {
             const objetoCreado = {
-                id_ciudad: data.id_ciudad,
-                nombre: nombreciudad,
+                id_pais: data.id_pais,
+                nombre: nombrePais,
             };
             res.json(objetoCreado);
         })
@@ -22,9 +22,9 @@ ciudad.post('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-ciudad.get('/', (req, res) => {
-    let sql = "SELECT * FROM tbl_ciudad  where activo = true";
-    db.any(sql, e => e.id)
+pais.get('/', (req, res) => {
+    let sql = "SELECT * FROM tbl_pais WHERE activo = true LIMIT 100";
+    db.any(sql)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
             res.json(rows);
@@ -33,37 +33,44 @@ ciudad.get('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-ciudad.put('/:id', (req, res) => {
-    const id_ciudad = req.params.id;
+pais.put('/:id', (req, res) => {
+    const idPais = req.params.id;
     const { nombre } = req.body;
-    const parametros = [nombre, id_ciudad];
+    if (typeof nombre !== 'string') {
+        res.status(400).json({ error: 'El campo nombre debe ser una cadena de caracteres' });
+        return;
+    }
+    const parametros = [nombre, idPais];
     const sql = `
-      UPDATE tbl_ciudad 
+      UPDATE tbl_pais 
       SET nombre = $1
-      WHERE id_ciudad = $2
+      WHERE id_pais = $2
     `;
     db.query(sql, parametros)
         .then(data => {
             const objetoModificado = {
-                id_ciudad: id_ciudad,
+                id_pais: idPais,
                 nombre: nombre
             };
             res.json(objetoModificado);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
-})
-ciudad.delete('/:id', async (req, res) => {
+});
+pais.delete('/:id', async (req, res) => {
     try {
         const sql = `
-            UPDATE tbl_ciudad
+            UPDATE tbl_pais
             SET activo = false, fecha_borra = current_timestamp
-            WHERE id_ciudad = $1
-            RETURNING id_ciudad, fecha_borra
+            WHERE id_pais = $1
+            RETURNING id_pais, fecha_borra
         `;
-
         const data = await db.oneOrNone(sql, [req.params.id]);
         if (data) {
             res.json({
-                id_ciudad: data.id_ciudad,
+                id_pais: data.id_pais,
                 activo: false,
                 fecha_borra: data.fecha_borra
             });
@@ -75,4 +82,4 @@ ciudad.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error en la consulta a la base de datos' });
     }
 });
-module.exports = ciudad;
+module.exports = pais;
