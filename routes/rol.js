@@ -2,7 +2,28 @@ const express = require('express');
 const rol = express.Router();
 const db = require('../db/conn');
 
+rol.post('', (req, res) => {
+    const nombre = req.body.nombre; 
 
+    if (!nombre) {
+        return res.status(400).json({ error: 'El campo nombre es requerido' });
+    }
+
+    const sql = `INSERT INTO tbl_rol (nombre) VALUES ($1) RETURNING id_rol`;
+
+    db.one(sql, [nombre])
+        .then(data => {
+            const objetoCreado = {
+                id_rol: data.id_rol, 
+                nombre: nombre
+            };
+            res.json(objetoCreado);
+        })
+        .catch(error => {
+            console.error(error); 
+            res.status(500).json({ error: 'Ocurrió un error en el servidor' });
+        });
+});
 
 
 rol.get('', async (req, res) => {
