@@ -46,7 +46,7 @@ factura.put('/:id', (req, res) => {
       SET id_factura = $1
       correo =$2
       id_direccion = $3
-      WHERE fecha = $4
+      WHERE id_factura = $4
     `;
     db.query(sql, parametros)
         .then(data => {
