@@ -43,6 +43,9 @@ factura.put('/:id', (req, res) => {
     const sql = `
       UPDATE tbl_factura 
       SET correo = $1, id_direccion = $2, fecha = $3
+      SET id_factura = $1
+      correo =$2
+      id_direccion = $3
       WHERE id_factura = $4
     `;
     db.query(sql, parametros)
