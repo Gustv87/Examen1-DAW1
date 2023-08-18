@@ -8,6 +8,8 @@ const factura = require('./routes/factura.js');
 app.use('/api/factura', factura);
 const producto = require('./routes/producto.js');
 app.use('/api/producto', producto);
+const facturaDetalle = require('./routes/facturaDetalle.js');
+app.use('/api/facturaDetalle', facturaDetalle);
 const pais = require('./routes/pais.js');
 app.use('/api/pais', pais);
 const direccion = require('./routes/direccion.js');
