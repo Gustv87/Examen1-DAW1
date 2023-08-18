@@ -57,7 +57,7 @@ ciudad.delete('/:id', async (req, res) => {
             UPDATE tbl_ciudad
             SET activo = false, fecha_borra = current_timestamp
             WHERE id_ciudad = $1
-            RETURNING id_ciudad, fecha_borrado
+            RETURNING id_ciudad, fecha_borra
         `;
 
         const data = await db.oneOrNone(sql, [req.params.id]);
