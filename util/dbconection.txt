@@ -43,7 +43,7 @@ CREATE TABLE tbl_direccion (
     direccion VARCHAR(255) NOT NULL,
     descripcion VARCHAR(255),
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP,
+    fecha_borra TIMESTAMP,
     correo VARCHAR REFERENCES tbl_usuario(correo),
     id_ciudad INT REFERENCES tbl_ciudad(id_ciudad),
     id_pais INT REFERENCES tbl_pais(id_pais)
@@ -56,7 +56,7 @@ CREATE TABLE tbl_factura(
     id_direccion INT REFERENCES tbl_direccion(id_direccion),
     fecha DATE,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borrado TIMESTAMP WITHOUT TIME ZONE
+    fecha_borra TIMESTAMP WITHOUT TIME ZONE
 );
 //Mariel
 CREATE TABLE tbl_factura_detalle(
@@ -64,6 +64,10 @@ CREATE TABLE tbl_factura_detalle(
     id_factura INT NOT NULL,
     cantidad INT NOT NULL,
     id_producto INT NOT NULL,
+    id_detalle SERIAL NOT NULL PRIMARY KEY,
+    id_factura int REFERENCES tbl_factura(id_factura),
+    cantidad int NOT NULL,
+    id_producto int REFERENCES tbl_producto(id_producto),
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
    
