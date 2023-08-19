@@ -20,7 +20,7 @@ CREATE TABLE tbl_rol(
     fecha_borra timestamp without time zone
     
 );
-DROP TABLE tbl_rol CASCADE;
+
 //Mariel
 CREATE TABLE tbl_producto(
     id_producto SERIAL NOT NULL PRIMARY KEY,
@@ -60,6 +60,10 @@ CREATE TABLE tbl_factura(
 );
 //Mariel
 CREATE TABLE tbl_factura_detalle(
+    id_detalle SERIAL NOT NULL,
+    id_factura INT NOT NULL,
+    cantidad INT NOT NULL,
+    id_producto INT NOT NULL,
     id_detalle SERIAL NOT NULL PRIMARY KEY,
     id_factura int REFERENCES tbl_factura(id_factura),
     cantidad int NOT NULL,

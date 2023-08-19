@@ -6,9 +6,9 @@ direccion.post('/', (req, res) => {
         res.status(400).json({ error: 'Faltan campos obligatorios' });
         return;
     }
-    const { direccion, descripcion, correo, id_ciudad, id_pais } = req.body;
-    let datos = [direccion, descripcion, correo, id_ciudad, id_pais];
-    let sql = `INSERT INTO tbl_direccion (direccion, descripcion, correo, id_ciudad, id_pais) VALUES ($1, $2, $3, $4, $5) RETURNING id_direccion`;
+    const { direccion, descripcion, correo, id_ciudad } = req.body;
+    let datos = [direccion, descripcion, correo, id_ciudad];
+    let sql = `INSERT INTO tbl_direccion (direccion, descripcion, correo, id_ciudad) VALUES ($1, $2, $3, $4) RETURNING id_direccion`;
     db.one(sql, datos)
         .then(data => {
             const objetoCreado = {
@@ -17,7 +17,7 @@ direccion.post('/', (req, res) => {
                 descripcion: descripcion,
                 correo: correo,
                 id_ciudad: id_ciudad,
-                id_pais: id_pais
+
             };
             res.json(objetoCreado);
         })
@@ -40,16 +40,16 @@ direccion.get('/', (req, res) => {
 });
 direccion.put('/:id', (req, res) => {
     const idDireccion = req.params.id;
-    const { direccion, descripcion, id_ciudad, id_pais } = req.body;
-    if (!direccion || !descripcion || !id_ciudad || !id_pais) {
+    const { direccion, descripcion, id_ciudad } = req.body;
+    if (!direccion || !descripcion || !id_ciudad) {
         res.status(400).json({ error: 'Faltan campos obligatorios' });
         return;
     }
     const parametros = [direccion, descripcion, id_ciudad, id_pais, idDireccion];
     const sql = `
       UPDATE tbl_direccion 
-      SET direccion = $1, descripcion = $2, id_ciudad = $3, id_pais = $4
-      WHERE id_direccion = $5
+      SET direccion = $1, descripcion = $2, id_ciudad = $3
+      WHERE id_direccion = $4
     `;
     db.query(sql, parametros)
         .then(data => {
@@ -58,7 +58,7 @@ direccion.put('/:id', (req, res) => {
                 direccion: direccion,
                 descripcion: descripcion,
                 id_ciudad: id_ciudad,
-                id_pais: id_pais
+
             };
             res.json(objetoModificado);
         })
@@ -73,7 +73,7 @@ direccion.delete('/:id', async (req, res) => {
             UPDATE tbl_direccion
             SET activo = false, fecha_borra = current_timestamp
             WHERE id_direccion = $1
-            RETURNING id_direccion, direccion, descripcion, activo, fecha_borra, correo, id_ciudad, id_pais
+            RETURNING id_direccion, direccion, descripcion, activo, fecha_borra, correo, id_ciudad
         `;
         const data = await db.oneOrNone(sql, [req.params.id]);
         if (data) {
