@@ -1,6 +1,7 @@
 const express = require('express');
 const usuario = express.Router();
 const db = require('../db/conn');
+
 usuario.post('', (req, res) => {
     let params = [
         req.body.correo,
@@ -19,8 +20,8 @@ usuario.post('', (req, res) => {
             }
             res.json(objetoCreado);
         })
-        .catch(error => {
-            res.json(error);
+        .catch((error) => {
+            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
 usuario.get('', (req, res) => {
@@ -53,7 +54,7 @@ usuario.put('/:correo', (req, res) => {
             res.json(objetoMo);
         })
         .catch((error) => {
-            res.json(error);
+            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
 usuario.delete('/:correo', (req, res) => {
@@ -70,7 +71,7 @@ usuario.delete('/:correo', (req, res) => {
             res.json(objetoBorrado);
         })
         .catch((error) => {
-            res.json(error);
+            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
 module.exports = usuario;
