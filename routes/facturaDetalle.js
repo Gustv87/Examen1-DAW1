@@ -25,14 +25,14 @@ facturaDetalle.post('', (req, res) => {
             res.json(error);
         });
 });
-facturaDetalle.get('', (req, res) => {
+facturaDetalle.get('/:id_factura', (req, res) => {
     let sql = `
-            select d.id_detalle, f.correo, p.nombre, d.cantidad 
+            select d.id_detalle, f.correo, p.nombre, d.cantidad, f.id_factura
             from tbl_factura_detalle as d
             inner join tbl_factura as f on d.id_factura = f.id_factura
             inner join tbl_producto as p on d.id_producto = p.id_producto
-            where d.activo = true`;
-    db.any(sql, e => e.id_producto)
+            where d.activo = true and f.id_factura=$1`;
+    db.any(sql, req.params.id_factura)
         .then(rows => {
             res.json(rows);
         })
