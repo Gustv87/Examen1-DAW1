@@ -1,6 +1,7 @@
 const express = require('express');
 const ciudad = express.Router();
 const db = require('../db/conn');
+
 ciudad.post('/', (req, res) => {
     if (!req.body.nombre) {
         res.status(400).json({ error: 'Falta el campo nombre' });
@@ -8,16 +9,14 @@ ciudad.post('/', (req, res) => {
     }
     const nombreciudad = req.body.nombre;
     const idpais = req.body.id_pais;
-    let datos = [nombreciudad, idpais];
-    let sql = `INSERT INTO tbl_ciudad (nombre, id_pais) VALUES ($1, $2) RETURNING id_ciudad, id_pais`;
+    let datos = [nombreciudad,idpais];
+    let sql = `INSERT INTO tbl_ciudad (nombre,id_pais) VALUES ($1,$2) RETURNING id_ciudad`;
     db.one(sql, datos)
         .then(data => {
             const objetoCreado = {
                 id_ciudad: data.id_ciudad,
-                id_pais: data.id_pais,
                 nombre: nombreciudad,
                 id_pais: idpais
-
             };
             res.json(objetoCreado);
         })
@@ -27,10 +26,11 @@ ciudad.post('/', (req, res) => {
         });
 });
 
+
 ciudad.get('/', (req, res) => {
     let sql = `SELECT c.id_ciudad, c.nombre as ciudad, p.id_pais, p.nombre as pais FROM tbl_ciudad as c
     Inner join tbl_pais as p on c.id_pais = p.id_pais
-     where c.activo = true`;
+    where c.activo = true`;
     db.any(sql, e => e.id)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
@@ -40,7 +40,8 @@ ciudad.get('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-//
+
+
 ciudad.put('/:id', (req, res) => {
     const id_ciudad = req.params.id;
 
