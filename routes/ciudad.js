@@ -26,11 +26,11 @@ ciudad.post('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-// SELECT * FROM tbl_ciudad as c
-//     Inner join tbl pais as p on c.id_ciudad = p.id_pais
-//     where c.activo = true`;
+
 ciudad.get('/', (req, res) => {
-    let sql = "SELECT * FROM tbl_ciudad  where activo = true";
+    let sql = `SELECT c.id_ciudad, c.nombre as ciudad, p.id_pais, p.nombre as pais FROM tbl_ciudad as c
+    Inner join tbl_pais as p on c.id_pais = p.id_pais
+     where c.activo = true`;
     db.any(sql, e => e.id)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
@@ -43,8 +43,8 @@ ciudad.get('/', (req, res) => {
 //
 ciudad.put('/:id', (req, res) => {
     const id_ciudad = req.params.id;
-    
-    const { nombre, idpais} = req.body;
+
+    const { nombre, idpais } = req.body;
     const parametros = [nombre, idpais];
     const sql = `
       UPDATE tbl_ciudad 
@@ -58,7 +58,7 @@ ciudad.put('/:id', (req, res) => {
             const objetoModificado = {
                 id_ciudad: id_ciudad,
                 nombre: nombre,
-                id_pais:idpais
+                id_pais: idpais
             };
             res.json(objetoModificado);
         });
