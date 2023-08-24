@@ -72,3 +72,12 @@ CREATE TABLE tbl_factura_detalle(
     fecha_borra timestamp without time zone
    
 );
+
+// Tabla con Fotos
+
+create table tbl_prueba_fotos ( 
+    id SERIAL PRIMARY KEY, 
+    nombre varchar(200), 
+    archivo bytea, 
+    mime_type varchar(200)
+);

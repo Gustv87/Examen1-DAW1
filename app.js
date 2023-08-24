@@ -18,6 +18,11 @@ const rol = require('./routes/rol.js');
 app.use('/api/rol', rol);
 const usuario = require('./routes/usuario.js');
 app.use('/api/usuario', usuario);
+
+const fotos = require('./routes/fotos.js');
+app.use('/api/fotos', fotos);
+
+
 // Inicio del servidor
 const puerto = 3000;
 app.listen(puerto, () => {
