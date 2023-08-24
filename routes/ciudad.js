@@ -4,7 +4,7 @@ const db = require('../db/conn');
 
 ciudad.post('/', (req, res) => {
     if (!req.body.nombre) {
-        res.status(400).json({ error: 'Falta el campo nombre' });
+        res.status(500).json({ error: 'Falta el campo nombre' });
         return;
     }
     const nombreciudad = req.body.nombre;
