@@ -1,6 +1,7 @@
 const express = require('express');
 const direccion = express.Router();
 const db = require('../db/conn');
+const pgp = require('pg-promise')();
 direccion.post('/', (req, res) => {
     if (!req.body.direccion || !req.body.descripcion || !req.body.correo || !req.body.id_ciudad || !req.body.id_pais) {
         res.status(400).json({ error: 'Faltan campos obligatorios' });
@@ -26,17 +27,32 @@ direccion.post('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
-direccion.get('/', (req, res) => {
-    let sql = "SELECT * FROM tbl_direccion WHERE activo = true";
-    db.any(sql)
-        .then(rows => {
-            res.setHeader('Content-Type', 'application/json');
-            res.json(rows);
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+direccion.get('/', async (req, res) => {
+    try {
+        // Consulta para obtener las direcciones activas
+        const direccionSql = "SELECT * FROM tbl_direccion WHERE activo = true";
+        const direcciones = await db.any(direccionSql);
+
+        // Consulta para obtener los nombres de las ciudades según sus id_ciudad
+        const idCiudades = direcciones.map((direccion) => direccion.id_ciudad);
+        const ciudadSql = pgp.as.format("SELECT id_ciudad, nombre FROM tbl_ciudad WHERE id_ciudad IN ($1:csv)", [idCiudades]);
+        const ciudades = await db.any(ciudadSql);
+
+        // Mapear los resultados para agregar el nombre de la ciudad a cada dirección
+        const direccionesConCiudad = direcciones.map((direccion) => {
+            const ciudad = ciudades.find((ciudad) => ciudad.id_ciudad === direccion.id_ciudad);
+            return {
+                ...direccion,
+                nombre_ciudad: ciudad ? ciudad.nombre : null,
+            };
         });
+
+        res.setHeader('Content-Type', 'application/json');
+        res.json(direccionesConCiudad);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+    }
 });
 direccion.put('/:id', (req, res) => {
     const idDireccion = req.params.id;

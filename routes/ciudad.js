@@ -28,7 +28,7 @@ ciudad.post('/', (req, res) => {
 
 
 ciudad.get('/', (req, res) => {
-    let sql = `SELECT c.id_ciudad, c.nombre as ciudad, p.id_pais, p.nombre as pais FROM tbl_ciudad as c
+    let sql = `SELECT c.id_ciudad as id_ciudad, c.nombre as nombre, p.id_pais, p.nombre as nombre_pais FROM tbl_ciudad as c
     Inner join tbl_pais as p on c.id_pais = p.id_pais
     where c.activo = true`;
     db.any(sql, e => e.id)
