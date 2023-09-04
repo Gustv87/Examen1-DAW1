@@ -37,6 +37,7 @@ ciudad.get('/', (req, res) => {
             res.json(rows);
         })
         .catch((error) => {
+            console.error('Database Error:', error);
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
