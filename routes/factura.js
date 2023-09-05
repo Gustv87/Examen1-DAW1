@@ -34,6 +34,38 @@ factura.get('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
+
+factura.get('/reporteFactura/', (req, res)=>{
+
+    let sql = `SELECT   a.id_factura, 
+                        a.correo, 
+                        b.descripcion, 
+                        b.direccion, 
+                        b.id_ciudad, 
+                        c.nombre as nombre_ciudad, 
+                        c.id_pais, 
+                        d.nombre as nombre_pais
+                    FROM tbl_factura a 
+                    inner join tbl_direccion b 
+                    on a.id_direccion = b.id_direccion 
+                    inner join tbl_ciudad c 
+                    on  b.id_ciudad = b.id_ciudad 
+                    inner join tbl_pais d 
+                    on c.id_pais = d.id_pais
+                    where a.activo = true`;
+    db.any(sql, e => e.id)
+        .then(rows => {
+            res.setHeader('Content-Type', 'application/json');
+            res.json(rows);
+        })
+        .catch((error) => {
+            res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+        });
+
+
+
+});
+
 factura.put('/:id', (req, res) => {
     const id_factura = req.params.id;
     const { correo, id_direccion, fecha } = req.body;
