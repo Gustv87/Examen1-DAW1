@@ -1,18 +1,24 @@
-// steven
+drop table if exists tbl_ciudad cascade;
+
 CREATE TABLE tbl_ciudad (
     id_ciudad SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_borra TIMESTAMP
+    fecha_borra TIMESTAMP, 
+    id_pais int
 );
-//Gustavo
+
+drop table if EXISTS tbl_pais CASCADE;
+
 CREATE TABLE tbl_pais (
     id_pais SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     fecha_borra TIMESTAMP
 );
-//Erick
+
+drop table if EXISTS tbl_rol cascade;
+
 CREATE TABLE tbl_rol(
     id_rol SERIAL NOT NULL PRIMARY KEY,
     nombre VARCHAR (100) NOT NULL,
@@ -21,7 +27,8 @@ CREATE TABLE tbl_rol(
     
 );
 
-//Mariel
+drop table if EXISTS tbl_producto cascade;
+
 CREATE TABLE tbl_producto(
     id_producto SERIAL NOT NULL PRIMARY KEY,
     nombre character varying(255) NOT NULL,
@@ -29,7 +36,9 @@ CREATE TABLE tbl_producto(
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
 );
-//Erick
+
+drop table if EXISTS tbl_usuario cascade;
+
 CREATE TABLE tbl_usuario(  
     correo VARCHAR(200) NOT NULL PRIMARY KEY,
     nombre VARCHAR(255),
@@ -37,7 +46,9 @@ CREATE TABLE tbl_usuario(
     fecha_borra TIMESTAMP WITHOUT TIME ZONE,
     id_rol int REFERENCES tbl_rol(id_rol)
 );
-//Gustavo
+
+drop table if EXISTS tbl_direccion cascade;
+
 CREATE TABLE tbl_direccion (
     id_direccion SERIAL PRIMARY KEY,
     direccion VARCHAR(255) NOT NULL,
@@ -49,7 +60,7 @@ CREATE TABLE tbl_direccion (
     id_pais INT REFERENCES tbl_pais(id_pais)
    
 );
-//steven
+drop table if EXISTS tbl_factura;
 CREATE TABLE tbl_factura(  
    id_factura SERIAL NOT NULL PRIMARY KEY,
     correo VARCHAR REFERENCES tbl_usuario(correo),
@@ -58,22 +69,20 @@ CREATE TABLE tbl_factura(
     activo BOOLEAN DEFAULT TRUE,
     fecha_borra TIMESTAMP WITHOUT TIME ZONE
 );
-//Mariel
+
+drop table if EXISTS tbl_factura_detalle;
+
 CREATE TABLE tbl_factura_detalle(
     id_detalle SERIAL NOT NULL,
-    id_factura INT NOT NULL,
     cantidad INT NOT NULL,
-    id_producto INT NOT NULL,
-    id_detalle SERIAL NOT NULL PRIMARY KEY,
     id_factura int REFERENCES tbl_factura(id_factura),
-    cantidad int NOT NULL,
     id_producto int REFERENCES tbl_producto(id_producto),
     activo boolean DEFAULT true,
     fecha_borra timestamp without time zone
    
 );
 
-// Tabla con Fotos
+drop table if EXISTS tbl_prueba_fotos;
 
 create table tbl_prueba_fotos ( 
     id SERIAL PRIMARY KEY, 
