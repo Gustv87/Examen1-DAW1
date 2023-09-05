@@ -25,7 +25,17 @@ usuario.post('', (req, res) => {
         });
 });
 usuario.get('', (req, res) => {
-    let sql = "SELECT * FROM tbl_usuario where activo = true";
+    let sql = `SELECT
+    a.correo,
+    a.nombre,
+    b.id_rol,
+    b.nombre as rol
+FROM
+    tbl_usuario a
+    inner join tbl_rol b on b.id_rol = b.id_rol
+where
+    a.activo = true
+    `;
     db.any(sql, e => e.correo)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
