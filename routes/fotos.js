@@ -21,7 +21,7 @@ fotos.post('/',  upload.single('archivo')  , (req, res)=>{
 
     ];
 
-    let sql = ` insert into tbl_prueba_fotos
+    let sql = ` insert into tbl_fotos
                 ( nombre, archivo, mime_type )
                 values 
                 ( $1, $2 ,$3 ) returning id , nombre, mime_type `;
@@ -77,7 +77,7 @@ fotos.put('/:id',  upload.single('archivo')  , (req, res)=>{
 
     ];
 
-    let sql = ` update tbl_prueba_fotos 
+    let sql = ` update tbl_fotos 
                 set nombre = $1, 
                     archivo = $2, 
                     mime_type = $3 

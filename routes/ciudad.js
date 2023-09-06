@@ -7,7 +7,7 @@ ciudad.post('/', (req, res) => {
         res.status(500).json({ error: 'Falta el campo nombre' });
         return;
     }
-    const nombreciudad = req.body.nombre;
+    const nombreciudad = String(req.body.nombre);
     const idpais = req.body.id_pais;
     let datos = [nombreciudad,idpais];
     let sql = `INSERT INTO tbl_ciudad (nombre,id_pais) VALUES ($1,$2) RETURNING id_ciudad`;
@@ -28,10 +28,12 @@ ciudad.post('/', (req, res) => {
 
 
 ciudad.get('/', (req, res) => {
-    let sql = `SELECT c.id_ciudad as id_ciudad, c.nombre as nombre, p.id_pais, p.nombre as nombre_pais FROM tbl_ciudad as c
-    Inner join tbl_pais as p on c.id_pais = p.id_pais
-    where c.activo = true`;
-    db.any(sql, e => e.id)
+    let sql = `
+        SELECT c.id_ciudad as id_ciudad, c.nombre as nombre, p.id_pais, p.nombre as nombre_pais 
+        FROM tbl_ciudad as c
+        INNER JOIN tbl_pais as p ON c.id_pais = p.id_pais
+        WHERE c.activo = true`;
+    db.any(sql)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');
             res.json(rows);
@@ -41,6 +43,7 @@ ciudad.get('/', (req, res) => {
             res.status(500).json({ error: 'Error en la consulta a la base de datos' });
         });
 });
+
 
 
 ciudad.put('/:id', (req, res) => {
