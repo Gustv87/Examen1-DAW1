@@ -89,3 +89,10 @@ create table tbl_prueba_fotos (
     archivo bytea, 
     mime_type varchar(200)
 );
+
+create table tbl_prueba_fotos ( 
+    id SERIAL PRIMARY KEY, 
+    nombre varchar(200), 
+    archivo bytea, 
+    mime_type varchar(200)
+);
