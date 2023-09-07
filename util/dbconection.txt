@@ -89,10 +89,9 @@ create table tbl_prueba_fotos (
     archivo bytea, 
     mime_type varchar(200)
 );
-
-create table tbl_prueba_fotos ( 
-    id SERIAL PRIMARY KEY, 
-    nombre varchar(200), 
-    archivo bytea, 
-    mime_type varchar(200)
+drop table if tbl_login; 
+CREATE TABLE tbl_login (
+  email VARCHAR(255) PRIMARY KEY UNIQUE,
+  password VARCHAR(255) NOT NULL
 );
+
