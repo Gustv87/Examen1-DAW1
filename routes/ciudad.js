@@ -33,6 +33,8 @@ ciudad.get('/', (req, res) => {
         FROM tbl_ciudad as c
         INNER JOIN tbl_pais as p ON c.id_pais = p.id_pais
         WHERE c.activo = true`;
+        
+        
     db.any(sql)
         .then(rows => {
             res.setHeader('Content-Type', 'application/json');

@@ -39,12 +39,15 @@ CREATE TABLE tbl_producto(
 
 drop table if EXISTS tbl_usuario cascade;
 
-CREATE TABLE tbl_usuario(  
-    correo VARCHAR(200) NOT NULL PRIMARY KEY,
-    nombre VARCHAR(255),
-    activo BOOLEAN DEFAULT true,
-    fecha_borra TIMESTAMP WITHOUT TIME ZONE,
-    id_rol int REFERENCES tbl_rol(id_rol)
+CREATE TABLE tbl_usuario(
+    correo character varying(200) NOT NULL,
+    nombre character varying(255),
+    activo boolean DEFAULT true,
+    fecha_borra timestamp without time zone,
+    id_rol integer,
+    password integer,
+    PRIMARY KEY(correo),
+    CONSTRAINT tbl_usuario_id_rol_fkey FOREIGN key(id_rol) REFERENCES tbl_rol(id_rol)
 );
 
 drop table if EXISTS tbl_direccion cascade;
@@ -89,8 +92,17 @@ create table tbl_prueba_fotos (
     archivo bytea, 
     mime_type varchar(200)
 );
+<<<<<<< HEAD
 CREATE TABLE tbl_login(
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     PRIMARY KEY(email)
 );
+=======
+drop table if tbl_login; 
+CREATE TABLE tbl_login (
+  email VARCHAR(255) PRIMARY KEY UNIQUE,
+  password VARCHAR(255) NOT NULL
+);
+
+>>>>>>> main
