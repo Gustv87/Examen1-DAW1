@@ -29,10 +29,10 @@ ciudad.post('/', (req, res) => {
 
 ciudad.get('/', (req, res) => {
     let sql = `
-        SELECT c.id_ciudad as id_ciudad, c.nombre as nombre, p.id_pais, p.nombre as nombre_pais 
-        FROM tbl_ciudad as c
-        INNER JOIN tbl_pais as p ON c.id_pais = p.id_pais
-        WHERE c.activo = true`;
+    SELECT tbl_ciudad.id_ciudad, tbl_pais.id_pais, tbl_ciudad.nombre, tbl_pais.nombre AS nombre_pais
+FROM tbl_ciudad
+INNER JOIN tbl_pais ON tbl_ciudad.id_ciudad = tbl_pais.id_pais
+`;
         
         
     db.any(sql)

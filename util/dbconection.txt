@@ -92,17 +92,8 @@ create table tbl_prueba_fotos (
     archivo bytea, 
     mime_type varchar(200)
 );
-<<<<<<< HEAD
 CREATE TABLE tbl_login(
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     PRIMARY KEY(email)
 );
-=======
-drop table if tbl_login; 
-CREATE TABLE tbl_login (
-  email VARCHAR(255) PRIMARY KEY UNIQUE,
-  password VARCHAR(255) NOT NULL
-);
-
->>>>>>> main
