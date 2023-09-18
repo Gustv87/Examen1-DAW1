@@ -1,6 +1,6 @@
 const pgp = require('pg-promise')();
 
-const cn = 'postgres://dlujo:IyeNbUC8SfeQitrY5eiLtDvXMwCuFyb4@dpg-cjvre695mpss73aq84g0-a.oregon-postgres.render.com/dlujo';
+const cn = "postgres://dlujo:IyeNbUC8SfeQitrY5eiLtDvXMwCuFyb4@dpg-cjvre695mpss73aq84g0-a.oregon-postgres.render.com/dlujo";
 
 const options = {
     ssl: {
@@ -9,6 +9,8 @@ const options = {
   };
 
 const db = pgp({ connectionString: cn, ...options });
+
+
 
 db.connect()
 .then( () => {
