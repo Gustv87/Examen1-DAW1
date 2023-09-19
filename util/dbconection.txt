@@ -26,7 +26,7 @@ CREATE TABLE tbl_rol(
     fecha_borra timestamp without time zone
     
 );
-
+    
 drop table if EXISTS tbl_producto cascade;
 
 CREATE TABLE tbl_producto(

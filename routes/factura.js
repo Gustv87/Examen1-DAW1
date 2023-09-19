@@ -5,9 +5,11 @@ factura.post('', (req, res) => {
     let params = [
         req.body.correo,
         req.body.id_direccion,
-        req.body.fecha
+        req.body.fecha,
+        req.body.cantidadTotal,
+        req.body.precioTotal
     ];
-    let sql = `INSERT INTO tbl_factura (correo, id_direccion, fecha) values ($1, $2, $3) 
+    let sql = `INSERT INTO tbl_factura (correo, id_direccion, fecha, cantidadTotal, precioTotal) values ($1, $2, $3, $4, $5) 
                                                             RETURNING id_factura`;
     console.log(params)
     db.one(sql, params, event => event.id_factura)
@@ -15,7 +17,9 @@ factura.post('', (req, res) => {
             const objetoCreado = {
                 correo: params[0],
                 id_direccion: params[1],
-                fecha: params[2]
+                fecha: params[2],
+                cantidadTotal: params[3],
+                precioTotal: params[4]
             }
             res.json(objetoCreado);
         })
