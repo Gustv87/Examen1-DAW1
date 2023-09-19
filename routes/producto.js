@@ -43,7 +43,7 @@ producto.post('',  upload.single('foto')  , (req, res)=>{
 
 producto.get('', (req, res)=>{
 
-    let sql = ` select id_producto , nombre,precio,  encode(foto, 'base64') foto from tbl_producto where activo = true `;
+    let sql = ` select id_producto , nombre,precio,  encode(foto, 'base64') foto, quantity from tbl_producto where activo = true `;
 
     db.any(sql)
     .then( rows=>{
